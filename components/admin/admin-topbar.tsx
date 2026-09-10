@@ -3,11 +3,9 @@
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/marketing/theme-toggle";
-import { useAdminAuthStore } from "@/store/use-admin-auth-store";
 
 export function AdminTopbar() {
   const router = useRouter();
-  const logout = useAdminAuthStore((state) => state.logout);
 
   return (
     <header className="flex h-14 items-center justify-between border-b border-border px-6">
@@ -17,9 +15,10 @@ export function AdminTopbar() {
         <Button
           size="sm"
           variant="ghost"
-          onClick={() => {
-            logout();
+          onClick={async () => {
+            await fetch("/api/admin/logout", { method: "POST" });
             router.push("/admin/login");
+            router.refresh();
           }}
         >
           Log out

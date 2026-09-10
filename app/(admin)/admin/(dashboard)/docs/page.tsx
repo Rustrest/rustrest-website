@@ -1,24 +1,14 @@
 import Link from "next/link";
 import { PageHeader } from "@/components/admin/page-header";
-import { DataTable, type DataTableColumn } from "@/components/admin/data-table";
+import { AdminDocsTable } from "@/components/admin/admin-docs-table";
 import { Button } from "@/components/ui/button";
-import { sortedDocs } from "@/lib/data/docs";
-import type { DocPage } from "@/types";
+import { getAllDocs } from "@/lib/docs";
 
-const columns: DataTableColumn<DocPage>[] = [
-  {
-    header: "Title",
-    cell: (doc) => (
-      <Link href={`/admin/docs/${doc.id}`} className="hover:text-brand">
-        {doc.title}
-      </Link>
-    ),
-  },
-  { header: "Slug", cell: (doc) => doc.slug },
-  { header: "Order", cell: (doc) => doc.order },
-];
+export const dynamic = "force-dynamic";
 
-export default function AdminDocsListPage() {
+export default async function AdminDocsListPage() {
+  const docs = await getAllDocs();
+
   return (
     <div>
       <PageHeader
@@ -29,7 +19,7 @@ export default function AdminDocsListPage() {
           </Link>
         }
       />
-      <DataTable columns={columns} rows={sortedDocs()} />
+      <AdminDocsTable docs={docs} />
     </div>
   );
 }

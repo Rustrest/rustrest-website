@@ -7,7 +7,7 @@ const footerColumns = [
   {
     title: "Product",
     links: [
-      { label: "Pricing", href: "/pricing" },
+      // { label: "Pricing", href: "/pricing" },
       { label: "Download", href: "/download" },
       { label: "Changelog", href: "/changelog" },
     ],
@@ -26,13 +26,13 @@ export function Footer() {
   return (
     <footer className="border-t border-border bg-surface">
       <div className="mx-auto max-w-6xl px-6 py-12">
-        <div className="flex flex-col gap-10 sm:flex-row sm:justify-between">
-          <div className="max-w-xs">
+        <div className="flex flex-col gap-8 border-b border-border pb-10 lg:flex-row lg:items-start lg:justify-between lg:gap-16">
+          <div className="max-w-2xl">
             <Logo />
-            <p className="mt-3 text-sm text-muted">{siteConfig.description}</p>
+            <p className="mt-4 text-sm leading-relaxed text-muted">{siteConfig.description}</p>
             <Link
               href={siteConfig.links.github}
-              className="mt-4 inline-flex items-center gap-2 text-sm text-muted hover:text-foreground"
+              className="mt-5 inline-flex items-center gap-2 text-sm text-muted hover:text-foreground"
             >
               <GithubIcon className="h-4 w-4" />
               Star on GitHub
@@ -58,7 +58,7 @@ export function Footer() {
             ))}
           </div>
         </div>
-        <div className="mt-10 flex flex-col gap-2 border-t border-border pt-6 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-6 flex flex-col gap-2 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {new Date().getFullYear()} {siteConfig.name}. Open source, built with Rust.
           </p>

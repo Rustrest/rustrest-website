@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/admin/page-header";
 import { DocForm } from "@/components/admin/doc-form";
-import { docs } from "@/lib/data/docs";
+import { getDocById } from "@/lib/docs";
+
+export const dynamic = "force-dynamic";
 
 export default async function AdminEditDocPage({
   params,
@@ -9,7 +11,7 @@ export default async function AdminEditDocPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const doc = docs.find((d) => d.id === id);
+  const doc = await getDocById(id);
   if (!doc) notFound();
 
   return (

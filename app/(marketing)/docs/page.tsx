@@ -1,6 +1,11 @@
-import { redirect } from "next/navigation";
-import { sortedDocs } from "@/lib/data/docs";
+import { redirect, notFound } from "next/navigation";
+import { getAllDocs } from "@/lib/docs";
 
-export default function DocsIndexPage() {
-  redirect(`/docs/${sortedDocs()[0].slug}`);
+export const dynamic = "force-dynamic";
+
+export default async function DocsIndexPage() {
+  const docs = await getAllDocs();
+  const first = docs[0];
+  if (!first) notFound();
+  redirect(`/docs/${first.slug}`);
 }

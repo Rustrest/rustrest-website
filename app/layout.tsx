@@ -18,7 +18,7 @@ import { SiteIntro } from "@/components/site-intro";
 
 export const metadata: Metadata = {
   title: `${siteConfig.name} — ${siteConfig.tagline}`,
-  description: siteConfig.description,
+  description: siteConfig.subtitle,
   icons: {
     icon: "/site-images/logo.png",
   },

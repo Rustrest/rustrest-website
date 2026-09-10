@@ -1,10 +1,14 @@
 import { PageHeader } from "@/components/admin/page-header";
 import { StatCard } from "@/components/admin/stat-card";
-import { posts } from "@/lib/data/posts";
-import { docs } from "@/lib/data/docs";
+import { getAllPosts } from "@/lib/db/posts";
+import { getAllDocs } from "@/lib/docs";
 import { pricingPlans } from "@/lib/data/pricing-plans";
 
-export default function AdminDashboardPage() {
+export const dynamic = "force-dynamic";
+
+export default async function AdminDashboardPage() {
+  const [posts, docs] = await Promise.all([getAllPosts(), getAllDocs()]);
+
   return (
     <div>
       <PageHeader title="Dashboard" />

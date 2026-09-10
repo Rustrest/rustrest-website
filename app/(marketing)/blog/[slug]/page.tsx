@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
-import { posts } from "@/lib/data/posts";
+import { getPostBySlug } from "@/lib/db/posts";
 import { MarkdownContent } from "@/components/markdown/markdown-content";
+
+export const dynamic = "force-dynamic";
 
 export default async function BlogPostPage({
   params,
@@ -8,7 +10,7 @@ export default async function BlogPostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = posts.find((p) => p.slug === slug);
+  const post = await getPostBySlug(slug);
   if (!post) notFound();
 
   return (

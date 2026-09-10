@@ -7,7 +7,7 @@ export function Hero() {
       <h1 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
         {siteConfig.tagline}
       </h1>
-      <p className="mx-auto mt-4 max-w-xl text-muted">{siteConfig.description}</p>
+      <p className="mx-auto mt-4 max-w-xl text-muted">{siteConfig.subtitle}</p>
       <div className="mt-8 flex items-center justify-center gap-3">
         <DownloadButton />
       </div>

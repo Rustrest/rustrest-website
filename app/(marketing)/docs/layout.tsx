@@ -1,8 +1,10 @@
 import Link from "next/link";
-import { sortedDocs } from "@/lib/data/docs";
+import { getAllDocs } from "@/lib/docs";
 
-export default function DocsLayout({ children }: { children: React.ReactNode }) {
-  const docs = sortedDocs();
+export const dynamic = "force-dynamic";
+
+export default async function DocsLayout({ children }: { children: React.ReactNode }) {
+  const docs = await getAllDocs();
 
   return (
     <div className="mx-auto flex max-w-5xl gap-10 px-6 py-20">

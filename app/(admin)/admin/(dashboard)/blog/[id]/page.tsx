@@ -1,7 +1,9 @@
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/admin/page-header";
 import { PostForm } from "@/components/admin/post-form";
-import { posts } from "@/lib/data/posts";
+import { getPostById } from "@/lib/db/posts";
+
+export const dynamic = "force-dynamic";
 
 export default async function AdminEditBlogPostPage({
   params,
@@ -9,7 +11,7 @@ export default async function AdminEditBlogPostPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const post = posts.find((p) => p.id === id);
+  const post = await getPostById(id);
   if (!post) notFound();
 
   return (

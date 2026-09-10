@@ -2,13 +2,13 @@ import Image from "next/image";
 
 const shots = [
   {
-    src: "/site-images/site-img-1.png",
+    src: "/site-images/site-img-3.png",
     alt: "rustrest request builder showing a GET request and JSON response",
     title: "Build and send requests fast",
     description: "Organize requests into collections, set params, and inspect responses instantly.",
   },
   {
-    src: "/site-images/site-img-2.jpg",
+    src: "/site-images/site-img-4.png",
     alt: "rustrest Git panel showing a branch and uncommitted collection changes",
     title: "Git-native collections",
     description: "Collections live on your filesystem, so you can commit, branch, and diff them like code.",

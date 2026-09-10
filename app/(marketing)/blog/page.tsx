@@ -1,20 +1,32 @@
 import Link from "next/link";
-import { posts } from "@/lib/data/posts";
+import { getAllPosts } from "@/lib/db/posts";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
-export default function BlogIndexPage() {
+export const dynamic = "force-dynamic";
+
+export default async function BlogIndexPage() {
+  const posts = await getAllPosts();
   const published = posts.filter((post) => post.status === "published");
 
   return (
-    <section className="mx-auto max-w-3xl px-6 py-20">
+    <section className="mx-auto max-w-5xl px-6 py-20">
       <h1 className="text-3xl font-semibold text-foreground">Blog</h1>
-      <div className="mt-10 space-y-8">
+      <div className="mt-10 grid gap-6 sm:grid-cols-2">
         {published.map((post) => (
-          <Link key={post.id} href={`/blog/${post.slug}`} className="block">
-            <h2 className="text-xl font-medium text-foreground hover:text-brand">
-              {post.title}
-            </h2>
-            <p className="mt-1 text-sm text-muted">{post.publishedAt}</p>
-            <p className="mt-2 text-muted">{post.excerpt}</p>
+          <Link key={post.id} href={`/blog/${post.slug}`}>
+            <Card className="flex h-full flex-col transition-colors hover:border-brand">
+              <p className="text-sm text-muted">{post.publishedAt}</p>
+              <h2 className="mt-2 text-xl font-medium text-foreground">{post.title}</h2>
+              <p className="mt-2 flex-1 text-muted">{post.excerpt}</p>
+              {post.tags.length > 0 && (
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {post.tags.map((tag) => (
+                    <Badge key={tag}>{tag}</Badge>
+                  ))}
+                </div>
+              )}
+            </Card>
           </Link>
         ))}
       </div>

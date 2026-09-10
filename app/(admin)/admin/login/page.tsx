@@ -6,21 +6,32 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/marketing/logo";
-import { useAdminAuthStore } from "@/store/use-admin-auth-store";
 
 export default function AdminLoginPage() {
   const router = useRouter();
-  const login = useAdminAuthStore((state) => state.login);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
-  function handleSubmit(event: FormEvent) {
+  async function handleSubmit(event: FormEvent) {
     event.preventDefault();
-    if (login(email, password)) {
+    setSubmitting(true);
+    setError("");
+
+    const res = await fetch("/api/admin/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (res.ok) {
       router.push("/admin");
+      router.refresh();
     } else {
-      setError("Invalid email or password.");
+      const data = await res.json().catch(() => ({}));
+      setError(data.error ?? "Invalid email or password.");
+      setSubmitting(false);
     }
   }
 
@@ -43,8 +54,8 @@ export default function AdminLoginPage() {
             onChange={(e) => setPassword(e.target.value)}
           />
           {error && <p className="text-sm text-red-400">{error}</p>}
-          <Button type="submit" className="w-full">
-            Sign in
+          <Button type="submit" className="w-full" disabled={submitting}>
+            {submitting ? "Signing in…" : "Sign in"}
           </Button>
         </form>
       </Card>

@@ -28,7 +28,7 @@ export function CodeBlock({ children, className, ...props }: HTMLAttributes<HTML
     <div className="group relative">
       <pre
         className={cn(
-          "command-scrollbar overflow-x-auto rounded-lg border border-border bg-surface p-4 text-sm",
+          "command-scrollbar overflow-x-auto rounded-lg border border-border bg-surface p-5 text-sm leading-relaxed",
           className
         )}
         {...props}
@@ -39,7 +39,7 @@ export function CodeBlock({ children, className, ...props }: HTMLAttributes<HTML
         type="button"
         onClick={handleCopy}
         aria-label="Copy code"
-        className="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-md border border-border bg-background text-muted opacity-0 transition-opacity hover:text-foreground group-hover:opacity-100"
+        className="absolute bottom-2 right-2 flex h-7 w-7 items-center justify-center rounded-md border border-border bg-background text-muted opacity-0 transition-opacity hover:text-foreground group-hover:opacity-100"
       >
         {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
       </button>

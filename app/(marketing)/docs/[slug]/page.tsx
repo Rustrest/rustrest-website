@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { notFound } from "next/navigation";
-import { docs, getAdjacentDocs } from "@/lib/data/docs";
+import { getAllDocs, getAdjacentDocs } from "@/lib/docs";
 import { MarkdownContent } from "@/components/markdown/markdown-content";
+
+export const dynamic = "force-dynamic";
 
 export default async function DocPage({
   params,
@@ -10,10 +12,11 @@ export default async function DocPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  const docs = await getAllDocs();
   const doc = docs.find((d) => d.slug === slug);
   if (!doc) notFound();
 
-  const { prev, next } = getAdjacentDocs(slug);
+  const { prev, next } = getAdjacentDocs(docs, slug);
 
   return (
     <div>

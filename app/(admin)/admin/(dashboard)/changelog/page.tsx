@@ -1,19 +1,14 @@
 import Link from "next/link";
 import { PageHeader } from "@/components/admin/page-header";
-import { DataTable, type DataTableColumn } from "@/components/admin/data-table";
-import { Badge } from "@/components/ui/badge";
+import { AdminChangelogTable } from "@/components/admin/admin-changelog-table";
 import { Button } from "@/components/ui/button";
-import { changelogEntries } from "@/lib/data/changelog";
-import type { ChangelogEntry } from "@/types";
+import { getAllChangelogEntries } from "@/lib/db/changelog";
 
-const columns: DataTableColumn<ChangelogEntry>[] = [
-  { header: "Version", cell: (entry) => entry.version },
-  { header: "Title", cell: (entry) => entry.title },
-  { header: "Tag", cell: (entry) => <Badge>{entry.tag}</Badge> },
-  { header: "Published", cell: (entry) => entry.publishedAt },
-];
+export const dynamic = "force-dynamic";
 
-export default function AdminChangelogPage() {
+export default async function AdminChangelogPage() {
+  const entries = await getAllChangelogEntries();
+
   return (
     <div>
       <PageHeader
@@ -24,7 +19,7 @@ export default function AdminChangelogPage() {
           </Link>
         }
       />
-      <DataTable columns={columns} rows={changelogEntries} />
+      <AdminChangelogTable entries={entries} />
     </div>
   );
 }

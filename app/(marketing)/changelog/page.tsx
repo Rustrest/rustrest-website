@@ -1,7 +1,11 @@
 import { Badge } from "@/components/ui/badge";
-import { changelogEntries } from "@/lib/data/changelog";
+import { getAllChangelogEntries } from "@/lib/db/changelog";
 
-export default function ChangelogPage() {
+export const dynamic = "force-dynamic";
+
+export default async function ChangelogPage() {
+  const changelogEntries = await getAllChangelogEntries();
+
   return (
     <section className="mx-auto max-w-3xl px-6 py-20">
       <h1 className="text-3xl font-semibold text-foreground">Changelog</h1>
