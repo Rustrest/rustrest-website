@@ -141,7 +141,7 @@ export function MarkdownEditor({
 
   return (
     <div className="rounded-md border border-border bg-surface">
-      <div className="flex items-center justify-between border-b border-border px-2 py-1.5">
+      <div className="flex flex-wrap items-center justify-between gap-y-1 border-b border-border px-2 py-1.5">
         <div className="flex items-center gap-1">
           {mode === "write" && (
             <>
@@ -188,7 +188,7 @@ export function MarkdownEditor({
 
       {mode === "write" && imagePanelOpen && (
         <div className="space-y-3 border-b border-border p-3">
-          <div className="flex gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row">
             <div className="flex-1">
               <label className="mb-1 block text-sm text-muted">Image URL</label>
               <Input

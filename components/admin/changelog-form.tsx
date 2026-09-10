@@ -43,7 +43,7 @@ export function ChangelogForm({ entry }: { entry?: ChangelogEntry }) {
 
   return (
     <form className="mx-auto max-w-xl space-y-4" onSubmit={(event) => event.preventDefault()}>
-      <div className="flex gap-4">
+      <div className="flex flex-col gap-4 sm:flex-row">
         <div className="flex-1">
           <label className="mb-1 block text-sm text-muted">Version</label>
           <Input value={version} onChange={(e) => setVersion(e.target.value)} placeholder="1.1.0" />

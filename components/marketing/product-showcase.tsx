@@ -17,12 +17,12 @@ const shots = [
 
 export function ProductShowcase() {
   return (
-    <section className="mx-auto max-w-[90rem] px-6 py-24">
+    <section className="mx-auto max-w-[90rem] px-6 py-16 sm:py-24">
       <div className="mx-auto max-w-2xl text-center">
         <h2 className="text-3xl font-semibold text-foreground">See rustrest in action</h2>
         <p className="mt-3 text-muted">A native client, not another Electron tab.</p>
       </div>
-      <div className="mt-20 grid gap-x-12 gap-y-28 md:grid-cols-2">
+      <div className="mt-12 grid gap-x-12 gap-y-12 sm:mt-20 md:grid-cols-2 md:gap-y-28">
         {shots.map((shot, index) => (
           <div key={shot.src} className={index === 1 ? "md:mt-32" : undefined}>
             <div className="relative aspect-[3/2] overflow-hidden rounded-2xl">

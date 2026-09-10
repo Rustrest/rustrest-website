@@ -3,11 +3,12 @@ import { marketingNav } from "@/config/site";
 import { Logo } from "@/components/marketing/logo";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/marketing/theme-toggle";
+import { MobileNav } from "@/components/marketing/mobile-nav";
 
 export function Navbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+      <div className="relative mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <Link href="/" data-site-logo-target>
           <Logo />
         </Link>
@@ -22,11 +23,12 @@ export function Navbar() {
             </Link>
           ))}
         </nav>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <ThemeToggle />
-          <Link href="/download">
+          <Link href="/download" className="hidden md:block">
             <Button size="sm">Download</Button>
           </Link>
+          <MobileNav />
         </div>
       </div>
     </header>

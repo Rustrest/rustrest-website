@@ -23,14 +23,14 @@ export default async function DocPage({
       <h1 className="text-2xl font-semibold text-foreground">{doc.title}</h1>
       <MarkdownContent content={doc.content} className="mt-4" />
 
-      <div className="mt-12 flex items-center justify-between border-t border-border pt-6 text-sm">
+      <div className="mt-12 flex flex-col gap-3 border-t border-border pt-6 text-sm sm:flex-row sm:items-center sm:justify-between">
         {prev ? (
           <Link
             href={`/docs/${prev.slug}`}
-            className="flex items-center gap-1 text-muted hover:text-foreground"
+            className="flex min-w-0 items-center gap-1 text-muted hover:text-foreground"
           >
-            <ChevronLeft className="h-4 w-4" />
-            {prev.title}
+            <ChevronLeft className="h-4 w-4 shrink-0" />
+            <span className="truncate">{prev.title}</span>
           </Link>
         ) : (
           <span />
@@ -38,10 +38,10 @@ export default async function DocPage({
         {next ? (
           <Link
             href={`/docs/${next.slug}`}
-            className="flex items-center gap-1 text-muted hover:text-foreground"
+            className="flex min-w-0 items-center gap-1 text-muted hover:text-foreground sm:justify-end"
           >
-            {next.title}
-            <ChevronRight className="h-4 w-4" />
+            <span className="truncate">{next.title}</span>
+            <ChevronRight className="h-4 w-4 shrink-0" />
           </Link>
         ) : (
           <span />

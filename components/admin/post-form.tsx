@@ -56,7 +56,7 @@ export function PostForm({ post }: { post?: BlogPost }) {
         <label className="mb-1 block text-sm text-muted">Excerpt</label>
         <Input value={excerpt} onChange={(e) => setExcerpt(e.target.value)} />
       </div>
-      <div className="flex gap-4">
+      <div className="flex flex-col gap-4 sm:flex-row">
         <div className="flex-1">
           <label className="mb-1 block text-sm text-muted">Author</label>
           <Input value={author} onChange={(e) => setAuthor(e.target.value)} />

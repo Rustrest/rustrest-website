@@ -3,7 +3,7 @@ import { siteConfig } from "@/config/site";
 
 export function Hero() {
   return (
-    <section className="mx-auto max-w-4xl px-6 py-28 text-center">
+    <section className="mx-auto max-w-4xl px-6 py-16 text-center sm:py-28">
       <h1 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
         {siteConfig.tagline}
       </h1>
