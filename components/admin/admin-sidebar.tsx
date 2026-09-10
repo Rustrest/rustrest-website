@@ -11,7 +11,7 @@ export function AdminSidebar() {
 
   return (
     <aside className="w-56 shrink-0 border-r border-border bg-surface p-3">
-      <div className="px-2">
+      <div className="px-2" data-site-logo-target>
         <Logo />
         <p className="mt-1 text-xs font-medium uppercase tracking-wide text-muted">Admin</p>
       </div>

@@ -6,9 +6,9 @@ import { ThemeToggle } from "@/components/marketing/theme-toggle";
 
 export function Navbar() {
   return (
-    <header className="border-b border-border">
+    <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-        <Link href="/">
+        <Link href="/" data-site-logo-target>
           <Logo />
         </Link>
         <nav className="hidden items-center gap-6 md:flex">

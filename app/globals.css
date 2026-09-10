@@ -57,3 +57,28 @@ body {
   background-color: var(--muted-foreground);
   border-radius: 9999px;
 }
+
+@keyframes site-intro-logo-fly {
+  0% {
+    transform: translate(0, 0) scale(1.8);
+    opacity: 0;
+  }
+  12% {
+    transform: translate(0, 0) scale(1.8);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--intro-x, 0px), var(--intro-y, 0px)) scale(var(--intro-scale, 1));
+    opacity: 1;
+  }
+}
+
+.site-intro-logo {
+  animation: site-intro-logo-fly 1.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-intro-logo {
+    animation: none;
+  }
+}
