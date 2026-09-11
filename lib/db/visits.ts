@@ -27,15 +27,66 @@ function toVisit(doc: VisitLean): Visit {
   };
 }
 
-export async function getAllVisits(): Promise<Visit[]> {
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+export interface VisitsQuery {
+  page?: number;
+  pageSize?: number;
+  ip?: string;
+}
+
+export interface VisitsPage {
+  visits: Visit[];
+  total: number;
+  page: number;
+  pageSize: number;
+}
+
+// Paginated + searchable-by-IP — the table only ever loads one page's worth
+// from the DB, not the whole collection, so this stays fast no matter how
+// many visits accumulate.
+export async function getVisitsPage({ page = 1, pageSize = 20, ip }: VisitsQuery): Promise<VisitsPage> {
+  const safePage = Math.max(1, page);
   try {
     await connectDB();
-    const visits = await VisitModel.find().sort({ createdAt: -1 }).limit(500).lean<VisitLean[]>();
-    return visits.map(toVisit);
+    const filter = ip?.trim() ? { ip: { $regex: escapeRegExp(ip.trim()), $options: "i" } } : {};
+
+    const [docs, total] = await Promise.all([
+      VisitModel.find(filter)
+        .sort({ createdAt: -1 })
+        .skip((safePage - 1) * pageSize)
+        .limit(pageSize)
+        .lean<VisitLean[]>(),
+      VisitModel.countDocuments(filter),
+    ]);
+
+    return { visits: docs.map(toVisit), total, page: safePage, pageSize };
   } catch {
-    // The DB being briefly unreachable shouldn't crash the whole admin page —
-    // an empty list (not fake data, this is real analytics) is the honest state.
-    return [];
+    return { visits: [], total: 0, page: safePage, pageSize };
+  }
+}
+
+export interface VisitStats {
+  total: number;
+  uniqueIps: number;
+  uniqueCountries: number;
+}
+
+// Uses DB-level counts/distinct instead of loading every document into
+// memory, so these stay accurate and cheap regardless of collection size.
+export async function getVisitStats(): Promise<VisitStats> {
+  try {
+    await connectDB();
+    const [total, uniqueIps, uniqueCountries] = await Promise.all([
+      VisitModel.countDocuments(),
+      VisitModel.distinct("ip"),
+      VisitModel.distinct("country", { country: { $ne: null } }),
+    ]);
+    return { total, uniqueIps: uniqueIps.length, uniqueCountries: uniqueCountries.length };
+  } catch {
+    return { total: 0, uniqueIps: 0, uniqueCountries: 0 };
   }
 }
 

@@ -1,13 +1,18 @@
 import { NextResponse } from "next/server";
-import { createVisit, getAllVisits } from "@/lib/db/visits";
+import { createVisit, getVisitsPage } from "@/lib/db/visits";
 import { requireAdmin } from "@/lib/admin-auth";
 
-export async function GET() {
+export async function GET(request: Request) {
   const denied = await requireAdmin();
   if (denied) return denied;
 
-  const visits = await getAllVisits();
-  return NextResponse.json(visits);
+  const { searchParams } = new URL(request.url);
+  const page = Number(searchParams.get("page")) || 1;
+  const pageSize = Number(searchParams.get("pageSize")) || 20;
+  const ip = searchParams.get("ip") ?? undefined;
+
+  const result = await getVisitsPage({ page, pageSize, ip });
+  return NextResponse.json(result);
 }
 
 export async function POST(request: Request) {
