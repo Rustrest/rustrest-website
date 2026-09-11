@@ -23,14 +23,6 @@ export interface BlogPost {
   status: "draft" | "published";
 }
 
-export interface DocPage {
-  id: string;
-  slug: string;
-  title: string;
-  content: string;
-  order: number;
-}
-
 export interface ChangelogEntry {
   id: string;
   version: string;

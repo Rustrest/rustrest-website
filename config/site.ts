@@ -20,7 +20,6 @@ export const marketingNav = [
 export const adminNav = [
   { label: "Dashboard", href: "/admin" },
   { label: "Blog Posts", href: "/admin/blog" },
-  { label: "Docs", href: "/admin/docs" },
   { label: "Changelog", href: "/admin/changelog" },
   { label: "Pricing Plans", href: "/admin/pricing" },
   { label: "Visitors", href: "/admin/visitors" },

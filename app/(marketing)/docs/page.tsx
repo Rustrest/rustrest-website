@@ -1,11 +1,15 @@
-import { redirect, notFound } from "next/navigation";
-import { getAllDocs } from "@/lib/docs";
+import { getSiteSettings } from "@/lib/db/settings";
 
 export const dynamic = "force-dynamic";
 
 export default async function DocsIndexPage() {
-  const docs = await getAllDocs();
-  const first = docs[0];
-  if (!first) notFound();
-  redirect(`/docs/${first.slug}`);
+  const { docsUrl } = await getSiteSettings();
+
+  return (
+    <iframe
+      src={docsUrl}
+      title="Documentation"
+      className="h-[calc(100dvh-4rem)] w-full border-0"
+    />
+  );
 }
