@@ -40,3 +40,15 @@ export interface ChangelogEntry {
   tag: "added" | "fixed" | "improved" | "removed";
 }
 
+// Analytics only — never surfaced on the public site.
+export interface Visit {
+  id: string;
+  ip: string;
+  country: string | null;
+  region: string | null;
+  city: string | null;
+  path: string;
+  userAgent: string | null;
+  createdAt: string;
+}
+
