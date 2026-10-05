@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { CopyableCommand } from "@/components/marketing/copyable-command";
-import { githubReleasesUrl } from "@/lib/data/downloads";
+import { githubReleasesUrl, getPlatformBinaryLinks } from "@/lib/data/downloads";
 
 const installCommand = `curl --proto '=https' --tlsv1.2 -LsSf https://raw.githubusercontent.com/SojebSikder/rustrest/main/install.sh | sh`;
 const pinnedVersionCommand = `VERSION=v0.1.3 INSTALL_DIR="$HOME/bin" curl --proto '=https' --tlsv1.2 -LsSf https://raw.githubusercontent.com/SojebSikder/rustrest/main/install.sh | sh`;
@@ -9,6 +9,11 @@ const pinnedVersionCommand = `VERSION=v0.1.3 INSTALL_DIR="$HOME/bin" curl --prot
 const platformTitles: Record<string, string> = {
   mac: "macOS",
   linux: "Linux",
+};
+
+const archLabels: Record<string, Record<string, string>> = {
+  mac: { aarch64: "Apple Silicon", x86_64: "Intel" },
+  linux: { aarch64: "ARM64", x86_64: "x86_64" },
 };
 
 export default async function PlatformInstallPage({
@@ -19,6 +24,8 @@ export default async function PlatformInstallPage({
   const { platform } = await params;
   const title = platformTitles[platform];
   if (!title) notFound();
+
+  const binaries = await getPlatformBinaryLinks(platform as "mac" | "linux");
 
   return (
     <section className="mx-auto max-w-2xl px-6 py-20">
@@ -42,10 +49,32 @@ export default async function PlatformInstallPage({
       </p>
       <CopyableCommand command={pinnedVersionCommand} className="mt-2 h-20" />
 
-      <div className="mt-10 flex justify-center">
-        <a href={githubReleasesUrl}>
-          <Button variant="outline">Or download from GitHub</Button>
-        </a>
+      <div className="mt-10 flex flex-col items-center gap-3">
+        {binaries ? (
+          <>
+            <p className="text-sm text-muted">
+              Or grab the {binaries.version} binary directly:
+            </p>
+            <div className="flex flex-wrap justify-center gap-3">
+              <a href={binaries.primary.url}>
+                <Button variant="outline">
+                  Download for {archLabels[platform]?.[binaries.primary.arch] ?? binaries.primary.arch}
+                </Button>
+              </a>
+              {binaries.alternates.map((asset) => (
+                <a key={asset.name} href={asset.url}>
+                  <Button variant="outline">
+                    {archLabels[platform]?.[asset.arch] ?? asset.arch}
+                  </Button>
+                </a>
+              ))}
+            </div>
+          </>
+        ) : (
+          <a href={githubReleasesUrl}>
+            <Button variant="outline">Or download from GitHub</Button>
+          </a>
+        )}
       </div>
     </section>
   );

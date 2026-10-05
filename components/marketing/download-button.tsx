@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getServerPlatform } from "@/lib/server-platform";
-import { downloadOptions } from "@/lib/data/downloads";
+import { getDownloadOptions } from "@/lib/data/downloads";
 
 export async function DownloadButton({ size = "lg" }: { size?: "sm" | "md" | "lg" }) {
-  const platform = await getServerPlatform();
+  const [platform, downloadOptions] = await Promise.all([getServerPlatform(), getDownloadOptions()]);
   const option = platform === "unknown" ? null : downloadOptions[platform];
   const label = option ? `Download for ${option.label}` : "Download for Windows, macOS, or Linux";
 
